@@ -1,0 +1,33 @@
+<!doctype html>
+
+<style>
+#error {
+  background: yellow;
+  color: red;
+  font-weight: bold;
+}
+</style>
+
+<p>PWA Notifications PoC.
+
+<p><a href="https://developers.google.com/web/fundamentals/push-notifications/">See this guide</a>.
+
+<p id="service-worker-supported"></p>
+
+<p id="push-manager-supported"></p>
+
+<p><button id="sw-register-btn">Install App</button>
+<p><button id="sw-skipwaiting-btn">Skip Waiting</button>
+
+<p><button id="sw-postmessage-btn">Post message</button> <input id="sw-message-input" type="text">
+
+<p id="error"></p>
+
+<pre id="log"></pre>
+
+<script src="app.js"></script>
+<script>
+if (swSupported) {
+  document.write('<script src="app.sw.js"></scr'+'ipt>');
+}
+</script>
