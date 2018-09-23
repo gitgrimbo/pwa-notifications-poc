@@ -1,33 +1,71 @@
 <!doctype html>
 
-<style>
-#error {
+<head>
+  <style>
+    #error {
   background: yellow;
   color: red;
   font-weight: bold;
 }
+h1 {
+  font-size: 12pt;
+}
+.feature-container {
+  border: solid 1px lightgrey;
+  padding: 0.5em;
+}
 </style>
 
-<p>PWA Notifications PoC.
+  <script>
+    function addScript(test, src) {
+      test = (typeof test === "function")
+        ? test()
+        : test;
+      if (test) {
+        document.writeln('<script src="' + src + '"></scr' + 'ipt>');
+      }
+    }
+  </script>
+  <script>
+    addScript(!("Symbol" in window) || !("Promise" in window) || !("fetch" in window), "https://cdn.polyfill.io/v2/polyfill.min.js");
+  </script>
+</head>
 
-<p><a href="https://developers.google.com/web/fundamentals/push-notifications/">See this guide</a>.
+<div>PWA Notifications PoC. <a href="https://developers.google.com/web/fundamentals/push-notifications/">See this guide</a>.</div>
 
-<p id="service-worker-supported"></p>
+<div id="service-worker" class="feature-container">
+  <h1>Service Worker</h1>
+  <p class="js-supported-msg"></p>
+  <div class="js-supported">
+    <div><button class="js-register-btn">Install App</button></div>
+    <div><button class="js-skipwaiting-btn">Skip Waiting</button></div>
+    <div><button class="js-postmessage-btn">Post Message</button> <input class="js-message-input" type="text" /></div>
+  </div>
+  <div class="js-unsupported"></div>
+</div>
 
-<p id="push-manager-supported"></p>
+<div id="push" class="feature-container">
+  <h1>Push</h1>
+  <p class="js-supported-msg"></p>
+  <div class="js-supported"></div>
+  <div class="js-unsupported"></div>
+</div>
 
-<p><button id="sw-register-btn">Install App</button>
-<p><button id="sw-skipwaiting-btn">Skip Waiting</button>
+<div id="notifications" class="feature-container">
+  <h1>Notifications</h1>
+  <p class="js-supported-msg"></p>
+  <div class="js-supported">
+    <div>
+      <button class="js-ask-for-permission-btn">Ask for notifications permission</button>
+      <span class="js-permission-result"></span>
+    </div>
+    <div><button class="js-send-notification-btn">Send Notification</button> <input class="js-notification-input" type="text" /></div>
+  </div>
+  <div class="js-unsupported"></div>
+</div>
 
-<p><button id="sw-postmessage-btn">Post message</button> <input id="sw-message-input" type="text">
-
-<p id="error"></p>
+<div id="error"></div>
 
 <pre id="log"></pre>
 
-<script src="app.js"></script>
-<script>
-if (swSupported) {
-  document.write('<script src="app.sw.js"></scr'+'ipt>');
-}
-</script>
+<script src="./main.js"></script>

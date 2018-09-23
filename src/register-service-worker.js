@@ -1,10 +1,7 @@
-console.log("app.sw.js");
-
+console.log("register-service-worker.js");
 console.log("navigator.serviceWorker", navigator.serviceWorker);
 
-window.addEventListener("load", onLoad);
-
-function onLoad() {
+function registerInternal(container) {
   function printRegistration(registration) {
     const { active, installing, waiting } = registration;
     console.log(registration);
@@ -70,13 +67,28 @@ function onLoad() {
         if (registration.waiting) registration.waiting.postMessage(input.value);
       };
     });
-  })(document.getElementById("sw-postmessage-btn"), document.getElementById("sw-message-input"));
+  })(container.querySelector(".js-postmessage-btn"), container.querySelector(".js-message-input"));
 
   navigator.serviceWorker.addEventListener("message", (e) => {
     console.log("navigator.serviceWorker.message", e);
   });
 }
 
-setInterval((e) => {
-  fetch("./intercept-me.html?" + Date.now());
-}, 5000);
+export function supported() {
+  return "serviceWorker" in navigator;
+}
+
+export function register(container) {
+  window.addEventListener("load", (e) => registerInternal(container));
+}
+
+export function init(container) {
+  container.querySelector(".js-supported-msg").innerHTML = "Service Worker is " + (supported() ? "" : "not ") + "supported.";
+
+  container.querySelector(".js-supported").style.display = supported() ? "" : "none";
+  container.querySelector(".js-unsupported").style.display = !supported() ? "" : "none";
+
+  if (!supported()) {
+    return;
+  }
+}

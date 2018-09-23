@@ -9,22 +9,6 @@ function postMessage(msg) {
   });
 }
 
-function askForNotificationPermission() {
-  return new Promise(function (resolve, reject) {
-    const permissionResult = Notification.requestPermission((result) => {
-      resolve(result);
-    });
-    if (permissionResult) {
-      permissionResult.then(resolve, reject);
-    }
-  })
-    .then((permissionResult) => {
-      if (permissionResult !== "granted") {
-        throw new Error("We weren't granted permission.");
-      }
-    });
-}
-
 self.addEventListener("install", (e) => {
   console.log("sw.install", e);
   postMessage("install");
@@ -42,5 +26,3 @@ self.addEventListener("fetch", (e) => {
 self.addEventListener("message", (e) => {
   console.log("message", e);
 });
-
-//updated1
